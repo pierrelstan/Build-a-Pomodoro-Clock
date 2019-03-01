@@ -11,6 +11,7 @@ class App extends Component {
   }
 
   tick() {
+    
     this.setState(state=> ({
       seconds: state.seconds - 1
     }))
@@ -37,20 +38,20 @@ componentWillUnmount() {
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
-        <div style={{ textAlign: "center" }}>Seconds: {seconds}</div> 
-       <div>
+        <div style={{ textAlign: "center" }}>
           <div id="break-decrement">down</div>
           <div id="break-label">{this.state.breakLength}</div>
           <div id="session-decrement">up</div>
        </div>
 
-      <div>
+        <div style={{ textAlign: "center" }}>
           <div id="break-decrement">down</div>
           <div id="session-label">{this.state.sessionLength}</div>
           <div id="session-decrement">up</div>
       </div>
-       <div>
-          <div id="timer-label">Session</div>
+        <div style={{ textAlign: "center" }}>
+          <h1>Session</h1>
+          <div id="timer-label" >{seconds}</div>
        </div>
         
       </div>
