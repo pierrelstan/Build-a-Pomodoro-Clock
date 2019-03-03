@@ -44,10 +44,6 @@ breakLength(){
     clearInterval(this.interval)
   }
  
- 
-// componentDidMount(){
-//   this.interval = setInterval(() => this.handleClickStart(), 1000)
-// }
   handleClickStop=()=> {
   clearInterval(this.interval)
 }
@@ -55,26 +51,29 @@ breakLength(){
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
-        <div style={{ display: "flex",}}>
+        <div style={{display: "flex", justifyContent:"center"}}>
           <div>
-
-            <button id="break-decrement">up</button>
+             <h2>break Length</h2>
+            <div id="break-decrement"><i class="far fa-arrow-alt-circle-up"></i></div>
             <div id="break-label">{this.state.breakLength}</div>
-            <button id="session-decrement">down</button>
+            <div id="session-decrement"><i class="far fa-arrow-alt-circle-down"></i></div>
           </div>
           <div>
-            <button id="break-decrement">up</button>
+            <h2>session Length</h2>
+            <div id="break-decrement"><i class="far fa-arrow-alt-circle-up"></i></div>
             <div id="session-label">{this.state.sessionLength}</div>
-            <button id="session-decrement">down</button>
+            <div id="session-decrement"><i class="far fa-arrow-alt-circle-down"></i></div>
           </div>
         </div>
+     <div className="circle-wrapper">
+          <div id="circle">
+            <h2>Session</h2>
+            <div id="timer-label" >{this.getMinutes()} : {this.getSecondes()} </div>
+          </div>
+     </div>
      
-        <div style={{ textAlign: "center" }}>
-          <h1>Session</h1>
-          <div id="timer-label" >{this.getMinutes()} : {this.getSecondes()} </div>
-       </div>
         <div className="start_Stop_wrapper">
-         <div style={{display: "flex", justifyContent: "center"}}>
+         <div className="StartAndStop-Wrapper">
            <div>
               <button id="start_stop" onClick={this.handleClickStart}>Start</button>
 
