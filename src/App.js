@@ -39,8 +39,9 @@ breakLength(){
 
   handleClickReset=()=> {
     this.setState({
-      seconds:this.state.sessionLength * 60
+      seconds: this.state.sessionLength * 60
     })
+    clearInterval(this.interval)
   }
  
  
