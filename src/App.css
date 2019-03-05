@@ -1,4 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Black+Ops+One');
+.container {
+    display: flex;
+    justify-content: center;
+}
+.title-Pomodoro {
+    text-align: center;
+    text-transform: uppercase;
+     font-size: 50px;
+}
 .circle-wrapper {
     display:flex;
     justify-content: center;
@@ -15,7 +24,7 @@ body {
     vertical-align: middle;
     font-size: 100%;
     position: relative;
-    box-shadow: inset -10px -10px 100px rgb(236, 233, 9),
+    box-shadow: inset -10px -10px 100px rgb(255, 0, 0),
     10px 10px 20px black,
     inset 0px 0px 10px black;
     display: inline-block;
@@ -27,15 +36,43 @@ body {
     justify-content: center;
 }
 
-#timer-label {
+#time-left {
     font-size: 39px;
     font-family: 'Black Ops One',cursive;
 }
 .far {
     font-size: 32px;
+    margin: 10px;
 }
 .StartAndStop-Wrapper {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {
+    background-color: #008CBA;
+}
+
+.buttom-label-wrapper {
+display: grid;
+align-items: center;
+grid-template-columns: 200px 200px;
+text-align: center;
+grid-auto-rows: 75px;
+grid-gap: 10px;
+
+}
+
