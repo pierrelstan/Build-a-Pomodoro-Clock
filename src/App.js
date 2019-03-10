@@ -1,27 +1,44 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import Title from './components/pomodoroTitle';
 
 const initialState = {
+  min:"0",
   seconds: 25 * 60,
   sessionLength: 25,
-  breakLength: 5
+  breakLength:  5,
+  br:false
 }
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      start:false,
+      min:"",
       seconds: 25 * 60,
       breakLength: 5,
       break: false,
       sessionLength: 25,
-      session:false
+      session:false,
+      br: false,
     }
   }
+componentDidMount(){
+
+  this.e =setInterval(this.reange, 10)
+
+}
+// componentWillMount(){
+//   clearInterval(this.e)
+// }
+reange=()=>{
+const {seconds, min, breakLength}= this.state;
+if(this.state.start){
+  return (min <= -1 ?  this.setState({ seconds: 0,min:0 }):"")
+}
 
 
-componentWillMount(){
-  clearInterval(this.sam)
 }
 
   handleIncremetBreakLength =()=> {
@@ -44,10 +61,7 @@ componentWillMount(){
     else {
       return 
     }
-    // if (this.state.seconds === 55) {
-    //   let sam = setInterval(() => console.log("huhuhu"), 1000)
-    //   return sam
-    // }
+   
   }
   handleIncremetsessionLength = () => {
     this.setState((prevState) => ({
@@ -83,30 +97,44 @@ componentWillMount(){
        seconds: 1 * 60
       }))
     }
+  
   }
 
 getMinutes(){
- let min= Math.floor(("0" + this.state.seconds / 60))
+ let min= Math.floor((0 + this.state.seconds / 60))
  return min
 }
 getSecondes(){
   let  sec= ("0" + this.state.seconds % 60).slice(-2)
-    return sec
+  return sec
 }
   
   handleClickStart =()=> {
+    this.setState({start:true})
 
-    this.interval = setInterval(() => this.setState(state => ({
+  console.log(this.audio)
+    let sound = this.audio;
+// sound 
+    // this.PlaySound=setInterval(() => {
+    //   sound.play()
+    // }, 1000);
+
+
+
+    this.interval = setInterval(() => 
+     
+    this.setState(state => ({
       seconds: state.seconds - 1,
-    })), 1000)
-
-  this.setState({
-    break: true
-  })
-   if (this.state.seconds === 55) {
-      console.log("stats")
-    }
+      min: Math.floor((this.state.seconds / 60)),
     
+
+    })),
+  
+      
+ 1000)
+  
+   
+  
 }
 
   handleClickReset=()=> {
@@ -114,16 +142,20 @@ getSecondes(){
       ...initialState
     }))
     clearInterval(this.interval)
+    clearInterval(this.PlaySound)
 
 }
  
   handleClickStop=()=> {
   clearInterval(this.interval)
+    clearInterval(this.PlaySound)
 }
+
+
   render() {
     return (
       <div>
-       <h1 className="title-Pomodoro" style={{textAlign: "center"}}>Pomodoro Clock</h1>
+      <Title />
         <div className="container" >
           
      
@@ -132,7 +164,7 @@ getSecondes(){
               <h2 id="break-label">break Length</h2>
           <div style={{display:"flex", justifyContent:"center"}}>
                 <div id="break-decrement" onClick={this.handleIncremetBreakLength}><i className="far fa-arrow-alt-circle-up"></i></div>
-                <div id="break-length" >{this.state.breakLength}</div>
+                <div id="break-length">{this.state.breakLength}</div>
                 <div id="session-decrement" onClick={this.handleDecremetBreakLength}><i className="far fa-arrow-alt-circle-down"></i></div>
        </div>
        </div>
@@ -141,7 +173,7 @@ getSecondes(){
               <h2 id="session-label">session Length</h2>
             <div style={{ display: "flex", justifyContent: "center"}}>
                 <div id="break-increment" onClick={this.handleIncremetsessionLength}><i className="far fa-arrow-alt-circle-up"></i></div>
-                <div  id="session-length" >{this.state.sessionLength}</div>
+                <div id="session-length" >{this.state.sessionLength}</div>
                 <div id="session-increment" onClick={this.handleDecremetsessionLength}><i className="far fa-arrow-alt-circle-down"></i></div>
             </div>
           </div>
@@ -157,7 +189,13 @@ getSecondes(){
         <div className="start_Stop_wrapper">
          <div className="StartAndStop-Wrapper">
            <div>
-              <button id="start_stop" onClick={this.handleClickStart} className="button button2"><i className="fas fa-play"></i></button>
+              <button id="start_stop" onClick={this.handleClickStart} className="button button2"><i className="fas fa-play"></i>
+                <audio
+                   id="beep" src={`https://res.cloudinary.com/dteuk7cbl/video/upload/v1546541304/Audio/CardiakClap.mp3`}
+                  ref={ref => this.audio = ref}
+                >
+                </audio>
+              </button>
               <button onClick={this.handleClickStop} className="button button2"><i className="fas fa-stop"></i></button>
               <button onClick={this.handleClickReset} className="button button2" id="reset"><i className="fas fa-sync-alt"></i></button>
            </div>
