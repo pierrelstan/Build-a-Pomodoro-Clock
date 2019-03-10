@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Title from './components/pomodoroTitle';
+import ControlButton from './components/controlTimerButton';
 
 const initialState = {
   min:"0",
   seconds: 25 * 60,
   sessionLength: 25,
   breakLength:  5,
-  br:false
+  start: false,
 }
 class App extends Component {
   constructor(props){
@@ -20,25 +20,28 @@ class App extends Component {
       breakLength: 5,
       break: false,
       sessionLength: 25,
-      session:false,
       br: false,
+      breakTitle:"Break"
     }
   }
+
+
 componentDidMount(){
-
-  this.e =setInterval(this.reange, 10)
-
+  setInterval(this.reange, 3000)
 }
-// componentWillMount(){
-//   clearInterval(this.e)
-// }
-reange=()=>{
-const {seconds, min, breakLength}= this.state;
-if(this.state.start){
-  return (min <= -1 ?  this.setState({ seconds: 0,min:0 }):"")
+componentWillMount(){
+  clearInterval(this.reange)
 }
-
-
+reange=()=> {
+  if(this.state.seconds === 0){
+    console.log(" i ma here")
+    clearInterval(this.reange)
+    this.setState((prev)=> ({
+      seconds:Math.floor(prev.breakLength * 60),
+      break: true
+    }))
+  }
+  
 }
 
   handleIncremetBreakLength =()=> {
@@ -119,22 +122,16 @@ getSecondes(){
     //   sound.play()
     // }, 1000);
 
+  this.interval = setInterval(() =>
 
-
-    this.interval = setInterval(() => 
-     
     this.setState(state => ({
       seconds: state.seconds - 1,
       min: Math.floor((this.state.seconds / 60)),
-    
-
     })),
-  
-      
- 1000)
+    1000)
+
   
    
-  
 }
 
   handleClickReset=()=> {
@@ -153,35 +150,27 @@ getSecondes(){
 
 
   render() {
+    
+    const { 
+      breakLength, 
+      sessionLength,
+       seconds, 
+     } = this.state;
     return (
       <div>
       <Title />
-        <div className="container" >
-          
-     
-        <div className="buttom-label-wrapper">
-          <div style={{ display: "grid" }}>
-              <h2 id="break-label">break Length</h2>
-          <div style={{display:"flex", justifyContent:"center"}}>
-                <div id="break-decrement" onClick={this.handleIncremetBreakLength}><i className="far fa-arrow-alt-circle-up"></i></div>
-                <div id="break-length">{this.state.breakLength}</div>
-                <div id="session-decrement" onClick={this.handleDecremetBreakLength}><i className="far fa-arrow-alt-circle-down"></i></div>
-       </div>
-       </div>
+      <ControlButton 
+        breakLength={breakLength}
+        sessionLength={sessionLength}
+        handleDecremetsessionLength={this.handleDecremetsessionLength}
+        handleIncremetsessionLength={this.handleIncremetsessionLength}
+        handleDecremetBreakLength={this.handleDecremetBreakLength}
+        handleIncremetBreakLength={this.handleIncremetBreakLength}
 
-          <div style={{display:"grid"}}>
-              <h2 id="session-label">session Length</h2>
-            <div style={{ display: "flex", justifyContent: "center"}}>
-                <div id="break-increment" onClick={this.handleIncremetsessionLength}><i className="far fa-arrow-alt-circle-up"></i></div>
-                <div id="session-length" >{this.state.sessionLength}</div>
-                <div id="session-increment" onClick={this.handleDecremetsessionLength}><i className="far fa-arrow-alt-circle-down"></i></div>
-            </div>
-          </div>
-        </div>
-        </div>
+        />
      <div className="circle-wrapper">
           <div id="circle">
-            <h2 id="timer-label">Session</h2>
+            <h2 id="timer-label">{!this.state.break ? "Session" :`${this.state.breakTitle}`}</h2>
             <div  id="time-left">{this.getMinutes()} : {this.getSecondes()} </div>
           </div>
      </div>
@@ -189,7 +178,7 @@ getSecondes(){
         <div className="start_Stop_wrapper">
          <div className="StartAndStop-Wrapper">
            <div>
-              <button id="start_stop" onClick={this.handleClickStart} className="button button2"><i className="fas fa-play"></i>
+              <button id="start_stop" onClick={this.handleClickStart} className="button button2 "><i className="fas fa-play"></i>
                 <audio
                    id="beep" src={`https://res.cloudinary.com/dteuk7cbl/video/upload/v1546541304/Audio/CardiakClap.mp3`}
                   ref={ref => this.audio = ref}
