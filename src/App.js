@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Title from './components/pomodoroTitle';
 import ControlButton from './components/controlTimerButton';
+import DisplaySession  from './components/DisplaySession';
 
 const initialState = {
   min:"0",
@@ -155,6 +156,7 @@ getSecondes(){
       breakLength, 
       sessionLength,
        seconds, 
+       breakTitle,
      } = this.state;
     return (
       <div>
@@ -168,12 +170,10 @@ getSecondes(){
         handleIncremetBreakLength={this.handleIncremetBreakLength}
 
         />
-     <div className="circle-wrapper">
-          <div id="circle">
-            <h2 id="timer-label">{!this.state.break ? "Session" :`${this.state.breakTitle}`}</h2>
-            <div  id="time-left">{this.getMinutes()} : {this.getSecondes()} </div>
-          </div>
-     </div>
+        <DisplaySession
+          getMinutes={this.getMinutes()}
+          getSecondes={this.getSecondes()}
+         />
      
         <div className="start_Stop_wrapper">
          <div className="StartAndStop-Wrapper">
