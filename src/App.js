@@ -3,6 +3,7 @@ import './App.css';
 import Title from './components/pomodoroTitle';
 import ControlButton from './components/controlTimerButton';
 import DisplaySession  from './components/DisplaySession';
+import ButtonStartPauseReset from './components/ButtonStartPauseReset';
 
 const initialState = {
   min:"0",
@@ -116,12 +117,12 @@ getSecondes(){
   handleClickStart =()=> {
     this.setState({start:true})
 
-  console.log(this.audio)
-    let sound = this.audio;
-// sound 
-    // this.PlaySound=setInterval(() => {
-    //   sound.play()
-    // }, 1000);
+//   console.log(this.audio)
+//     let sound = this.audio;
+// // sound 
+//     // this.PlaySound=setInterval(() => {
+//     //   sound.play()
+//     // }, 1000);
 
   this.interval = setInterval(() =>
 
@@ -157,10 +158,13 @@ getSecondes(){
       sessionLength,
        seconds, 
        breakTitle,
+       start
      } = this.state;
+
     return (
       <div>
       <Title />
+
       <ControlButton 
         breakLength={breakLength}
         sessionLength={sessionLength}
@@ -168,29 +172,20 @@ getSecondes(){
         handleIncremetsessionLength={this.handleIncremetsessionLength}
         handleDecremetBreakLength={this.handleDecremetBreakLength}
         handleIncremetBreakLength={this.handleIncremetBreakLength}
-
         />
+
         <DisplaySession
           getMinutes={this.getMinutes()}
           getSecondes={this.getSecondes()}
          />
-     
-        <div className="start_Stop_wrapper">
-         <div className="StartAndStop-Wrapper">
-           <div>
-              <button id="start_stop" onClick={this.handleClickStart} className="button button2 "><i className="fas fa-play"></i>
-                <audio
-                   id="beep" src={`https://res.cloudinary.com/dteuk7cbl/video/upload/v1546541304/Audio/CardiakClap.mp3`}
-                  ref={ref => this.audio = ref}
-                >
-                </audio>
-              </button>
-              <button onClick={this.handleClickStop} className="button button2"><i className="fas fa-stop"></i></button>
-              <button onClick={this.handleClickReset} className="button button2" id="reset"><i className="fas fa-sync-alt"></i></button>
-           </div>
-           
-         </div>
-        </div>
+
+        <ButtonStartPauseReset
+          handleClickStart={this.handleClickStart}
+          handleClickStop={this.handleClickStop}
+          handleClickReset={this.handleClickReset}
+          start={start}
+         />
+       
       </div>
     );
   }
