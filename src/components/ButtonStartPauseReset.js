@@ -11,9 +11,7 @@ play(){
     }
    
 }
-
     render(){
-        
         const { handleClickReset, handleClickStart, handleClickStop } = this.props;
         return (
             <div className="start_Stop_wrapper">

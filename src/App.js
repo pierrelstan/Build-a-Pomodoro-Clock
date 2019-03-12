@@ -11,6 +11,7 @@ const initialState = {
   sessionLength: 25,
   breakLength:  5,
   start: false,
+  titleTimer:"Session"
 }
 class App extends Component {
   constructor(props){
@@ -23,28 +24,32 @@ class App extends Component {
       break: false,
       sessionLength: 25,
       br: false,
-      breakTitle:"Break"
+      titleTimer:"Session"
     }
   }
 
-
 componentDidMount(){
-  setInterval(this.reange, 3000)
+  document.title = `You clicked ${this.state.seconds} times`;
 }
-componentWillMount(){
-  clearInterval(this.reange)
-}
-reange=()=> {
-  if(this.state.seconds === 0){
-    console.log(" i ma here")
-    clearInterval(this.reange)
-    this.setState((prev)=> ({
-      seconds:Math.floor(prev.breakLength * 60),
-      break: true
-    }))
-  }
+ 
+componentWillUnmount(){
+  document.title = `You clicked ${this.state.seconds} times`;
+ 
   
 }
+componentDidUpdate(){
+  if (this.state.seconds === 0) {
+    setTimeout(() => {
+      this.setState( {
+        seconds: Math.floor(this.state.breakLength * 60),
+        titleTimer: "Break"
+        // break: true
+      })
+    }, 1000);
+  }
+}
+
+ 
 
   handleIncremetBreakLength =()=> {
     this.setState((prevState) => ({
@@ -104,45 +109,39 @@ reange=()=> {
     }
   
   }
-
+ 
 getMinutes(){
  let min= Math.floor((0 + this.state.seconds / 60))
  return min
 }
 getSecondes(){
-  let  sec= ("0" + this.state.seconds % 60).slice(-2)
+  let  sec= ("0"+this.state.seconds % 60).slice(-2)
   return sec
 }
-  
+  startTime=()=> {
+    this.interval = setInterval(() => 
+      this.setState(state => ({
+        seconds: state.seconds - 1,
+        min: Math.floor((this.state.seconds / 60)),
+      })),
+      1000)
+   
+    return;
+  }
   handleClickStart =()=> {
     this.setState({start:true})
-
-//   console.log(this.audio)
-//     let sound = this.audio;
-// // sound 
-//     // this.PlaySound=setInterval(() => {
-//     //   sound.play()
-//     // }, 1000);
-
-  this.interval = setInterval(() =>
-
-    this.setState(state => ({
-      seconds: state.seconds - 1,
-      min: Math.floor((this.state.seconds / 60)),
-    })),
-    1000)
-
-  
-   
+    this.startTime();
 }
+  ResetButton=()=> {
+  this.setState(() => ({
+    ...initialState
+  }))
+  clearInterval(this.interval)
+  clearInterval(this.PlaySound)
 
+  }
   handleClickReset=()=> {
-    this.setState(()=>({
-      ...initialState
-    }))
-    clearInterval(this.interval)
-    clearInterval(this.PlaySound)
-
+  this.ResetButton()
 }
  
   handleClickStop=()=> {
@@ -152,12 +151,11 @@ getSecondes(){
 
 
   render() {
-    
+    console.log(this.state.seconds)
     const { 
       breakLength, 
       sessionLength,
-       seconds, 
-       breakTitle,
+      titleTimer,
        start
      } = this.state;
 
@@ -177,6 +175,7 @@ getSecondes(){
         <DisplaySession
           getMinutes={this.getMinutes()}
           getSecondes={this.getSecondes()}
+          titleTimer={titleTimer}
          />
 
         <ButtonStartPauseReset
