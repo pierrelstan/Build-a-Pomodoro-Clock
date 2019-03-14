@@ -11,6 +11,8 @@ play(){
     }
    
 }
+
+
     render(){
         const { handleClickReset, handleClickStart, handleClickStop } = this.props;
         return (
