@@ -5,7 +5,7 @@ import ControlButton from './components/controlTimerButton';
 import DisplaySession  from './components/DisplaySession';
 import ButtonStartPauseReset from './components/ButtonStartPauseReset';
 
-const initialState = {
+const  defaultstate = {
   min:"0",
   seconds: 25 * 60,
   sessionLength: 25,
@@ -24,29 +24,25 @@ class App extends Component {
       break: false,
       sessionLength: 25,
       br: false,
-      titleTimer:"Session"
+      titleTimer:"Session",
+      id:""
     }
   }
 
-componentDidMount(){
-  document.title = `You clicked ${this.state.seconds} times`;
-}
- 
-componentWillUnmount(){
-  document.title = `You clicked ${this.state.seconds} times`;
- 
-  
-}
-componentDidUpdate(){
+  componentWillUpdate(){
   if (this.state.seconds === 0) {
-    setTimeout(() => {
+    
       this.setState( {
         seconds: Math.floor(this.state.breakLength * 60),
         titleTimer: "Break"
         // break: true
       })
-    }, 1000);
   }
+   
+
+    else {
+      return
+    }
 }
 
  
@@ -67,6 +63,7 @@ componentDidUpdate(){
         breakLength: 1
       }))
     }
+  
     
     else {
       return 
@@ -124,25 +121,37 @@ getSecondes(){
         seconds: state.seconds - 1,
         min: Math.floor((this.state.seconds / 60)),
       })),
-      1000)
-   
-    return;
+      1000);
+      
+    if (this.state.sessionLength > 60) {
+      console.log("break session 60!!!!")
+      this.setState((prevState) => ({
+        sessionLength: prevState.sessionLength + 60 - 60
+      }))
+      clearInterval(this.interval)
+      console.log("hey i need to update ")
+    }
   }
   handleClickStart =()=> {
-    this.setState({start:true})
+   
+
     this.startTime();
 }
-  ResetButton=()=> {
-  this.setState(() => ({
-    ...initialState
-  }))
-  clearInterval(this.interval)
-  clearInterval(this.PlaySound)
+  
+
+  handleClickReset=()=> {
+    var elem = document.getElementById('reset');
+    elem.style.color ="red";
+    (this.setState(() => ({
+      ...defaultstate
+    })))
+    
+      clearInterval(this.interval)
+      clearInterval(this.PlaySound)
+  // this.ResetButton(e)
+  console.log(this.state.id + "the di")
 
   }
-  handleClickReset=()=> {
-  this.ResetButton()
-}
  
   handleClickStop=()=> {
   clearInterval(this.interval)
@@ -184,7 +193,9 @@ getSecondes(){
           handleClickReset={this.handleClickReset}
           start={start}
          />
-       
+        
+
+         
       </div>
     );
   }
