@@ -11,7 +11,8 @@ const  defaultstate = {
   sessionLength: 25,
   breakLength:  5,
   start: false,
-  titleTimer:"Session"
+  titleTimer:"Session",
+  arr: [0, 1, 2,3,4,5,6,7,8,9,10]
 }
 class App extends Component {
   constructor(props){
@@ -25,24 +26,34 @@ class App extends Component {
       sessionLength: 25,
       br: false,
       titleTimer:"Session",
-      id:""
+      id:"",
+      arr:[0,1,2]
     }
   }
 
-  componentWillUpdate(){
+  componentsWillUpdate(){
   if (this.state.seconds === 0) {
-    
-      this.setState( {
+ 
+    setTimeout(this.setState((prev) => ({
+      sessionLength: prev.sessionLength
+    })), 20000)
+      //do stuff
+     this.setState({
         seconds: Math.floor(this.state.breakLength * 60),
         titleTimer: "Break"
         // break: true
       })
-  }
    
+   
+  }
 
-    else {
-      return
-    }
+    // else {
+    // this.setState({
+    //   seconds: Math.floor(this.state.sessionLength * 60),
+    //   titleTimer: "Session"
+    //   // break: true
+    // })
+    // }
 }
 
  
@@ -51,6 +62,13 @@ class App extends Component {
     this.setState((prevState) => ({
       breakLength: this.state.breakLength + 1,
     }))
+
+    if(this.state.breakLength > 65 - 1) {
+      console.log("greater than 60")
+      this.setState(()=> ({
+        breakLength: 60
+      }))
+    }
   }
  
   handleDecremetBreakLength=()=> {
@@ -76,7 +94,13 @@ class App extends Component {
       // break:false,
       session:true
     }))
-   
+    if (this.state.sessionLength > 65 - 1) {
+      console.log("greater than 60")
+      this.setState(() => ({
+        sessionLength: 60
+      }))
+    }
+
     if(this.state.session === true){
       this.setState(prevState => ({
         seconds: prevState.sessionLength * 60
@@ -116,21 +140,27 @@ getSecondes(){
   return sec
 }
   startTime=()=> {
-    this.interval = setInterval(() => 
-      this.setState(state => ({
-        seconds: state.seconds - 1,
-        min: Math.floor((this.state.seconds / 60)),
-      })),
-      1000);
-      
-    if (this.state.sessionLength > 60) {
-      console.log("break session 60!!!!")
-      this.setState((prevState) => ({
-        sessionLength: prevState.sessionLength + 60 - 60
-      }))
-      clearInterval(this.interval)
-      console.log("hey i need to update ")
-    }
+  // console.log(this.state.arr.length)
+    const { arr } = this.state;
+        this.interval = setInterval(() =>
+          this.setState(state => ({
+            seconds: state.seconds - 1,
+            min: Math.floor((this.state.seconds / 60)),
+          })),
+          1000);
+
+        // if (this.state.sessionLength > 60) {
+        //   console.log("break session 60!!!!")
+        //   this.setState((prevState) => ({
+        //     sessionLength: prevState.sessionLength + 60 - 60
+        //   }))
+        //   clearInterval(this.interval)
+        //   console.log("hey i need to update ")
+        
+        
+ 
+  
+
   }
   handleClickStart =()=> {
    
@@ -153,10 +183,10 @@ getSecondes(){
 
   }
  
-  handleClickStop=()=> {
-  clearInterval(this.interval)
-    clearInterval(this.PlaySound)
-}
+//   handleClickStop=()=> {
+//   clearInterval(this.interval)
+//     clearInterval(this.PlaySound)
+// }
 
 
   render() {
