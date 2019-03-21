@@ -1,8 +1,8 @@
 import React from "react";
-const Break =()=> (
+const Break =({ breakLength })=> (
     <div>
         <button id="break-decrement">down</button>
-        <div id="break-label">{this.state.breakLength}</div>
+        <div id="break-label">{breakLength}</div>
         <button d="break-increment">up</button>
     </div>
 )
