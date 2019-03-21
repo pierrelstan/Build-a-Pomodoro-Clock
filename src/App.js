@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import Break from './components/break';
+import Break from './components/break';
+import Session from './components/session';
+import Display from './components/display';
 
 
 class App extends Component {
@@ -42,34 +46,11 @@ getSecondes(){
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
-        <div style={{ display: "flex",}}>
-          <div>
-
-            <button id="break-decrement">up</button>
-            <div id="break-label">{this.state.breakLength}</div>
-            <button id="session-decrement">down</button>
-          </div>
-          <div>
-            <button id="break-decrement">up</button>
-            <div id="session-label">{this.state.sessionLength}</div>
-            <button id="session-decrement">down</button>
-          </div>
+        <div style={{ display: "flex", justifyContent:"center"}}>
+           <Break />
+           <Session />
         </div>
-     
-        <div style={{ textAlign: "center" }}>
-          <h1>Session</h1>
-          <div id="timer-label" >{this.getMinutes()} : {this.getSecondes()} </div>
-       </div>
-        <div className="start_Stop_wrapper">
-         <div style={{display: "flex", justifyContent: "center"}}>
-           <div>
-              <button id="start_stop" onClick={this.handleClickStart}>Start</button>
-              <button onClick={this.handleClickReset}>Reset</button>
-
-           </div>
-           
-         </div>
-        </div>
+            <Display />
       </div>
     );
   }
