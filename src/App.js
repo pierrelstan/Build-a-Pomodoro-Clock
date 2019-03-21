@@ -77,8 +77,6 @@ breakLength(){
          <div style={{display: "flex", justifyContent: "center"}}>
            <div>
               <button id="start_stop" onClick={this.handleClickStart}>Start</button>
-
-              <button onClick={this.handleClickStop}>Stop</button>
               <button onClick={this.handleClickReset}>Reset</button>
 
            </div>
