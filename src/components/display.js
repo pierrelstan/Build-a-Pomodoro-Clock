@@ -1,8 +1,8 @@
 import React from "react";
-const Display=()=> (
+const Display=({getMinutes, getSecondes})=> (
         <div style={{ textAlign: "center" }}>
             <h1>Session</h1>
-            <div id="timer-label" >{this.getMinutes()} : {this.getSecondes()} </div>
+            <div id="timer-label" >{getMinutes}:{getSecondes} </div>
         </div>
 )
 export default Display;
