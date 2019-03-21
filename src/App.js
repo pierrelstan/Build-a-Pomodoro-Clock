@@ -23,13 +23,7 @@ getSecondes(){
   return sec
 }
 
-breakLength(){
- if(this.getSecondes() === 57) {
-  this.setState({
-    seconds:clearInterval(this.interval)
-  })
- }
-}
+
   handleClickStart =()=> {
 
     this.interval = setInterval(() => this.setState(state => ({
@@ -44,13 +38,6 @@ breakLength(){
     clearInterval(this.interval)
   }
  
- 
-// componentDidMount(){
-//   this.interval = setInterval(() => this.handleClickStart(), 1000)
-// }
-  handleClickStop=()=> {
-  clearInterval(this.interval)
-}
   render() {
     return (
       <div>
