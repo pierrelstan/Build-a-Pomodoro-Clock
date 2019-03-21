@@ -12,11 +12,20 @@ class App extends Component {
     this.state = {
       seconds: 25 * 60,
       breakLength: 5,
-      sessionLength: 25
+      sessionLength: 25,
+      reachZero: false
     }
   }
-
- 
+c
+ componentDidUpdate () {
+   if (this.state.seconds === 0) {
+     this.setState({
+       seconds:900,
+      reachZero: true
+     })
+   }
+  
+ }
 getMinutes(){
   const { seconds } = this.state;
  let min= Math.floor((seconds / 60))
@@ -33,6 +42,8 @@ getSecondes(){
     this.interval = setInterval(() => this.setState(state => ({
       seconds: state.seconds - 1,
     })), 1000)
+
+    
   }
 
   handleClickReset=()=> {
@@ -43,7 +54,7 @@ getSecondes(){
   }
  
   render() {
-    const { sessionLength, breakLength } = this.state;
+    const { sessionLength, breakLength, reachZero} = this.state;
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
@@ -58,6 +69,7 @@ getSecondes(){
             <Display
             getMinutes={this.getMinutes()}
             getSecondes ={this.getSecondes()}
+            reachZero={reachZero}
             />
             <ControlButton
             handleClickStart={this.handleClickStart}
