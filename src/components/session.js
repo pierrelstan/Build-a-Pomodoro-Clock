@@ -1,8 +1,8 @@
 import React from "react";
-const Session =()=> (
+const Session =({ sessionLength })=> (
     <div>
         <button i id="session-decrement">down</button>
-        <div id="session-label">{this.state.sessionLength}</div>
+        <div id="session-label">{ sessionLength }</div>
         <button id="session-increment">up</button>
     </div>
 )
