@@ -9,61 +9,56 @@ const  defaultstate = {
   min:"0",
   seconds: 25 * 60,
   sessionLength: 25,
-  breakLength:  5,
-  start: false,
+  break: false,
+  start: true,
   titleTimer:"Session",
-  arr: [0, 1, 2,3,4,5,6,7,8,9,10]
+  session:false
 }
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      start:false,
+      start:true,
       min:"",
       seconds: 25 * 60,
-      breakLength: 5,
+      breakLength:5,
       break: false,
       sessionLength: 25,
-      br: false,
       titleTimer:"Session",
-      id:"",
-      arr:[0,1,2]
+      title:false,
+      session: false
     }
   }
+  componentWillUpdate(){
+    if (this.state.seconds === 0) {
+      let elem = document.getElementById("time-left");
+      elem.style.color = "yellow";
+      let title = document.getElementById("timer-label");
+      title.style.color = "yellow";
 
-  componentsWillUpdate(){
-  if (this.state.seconds === 0) {
- 
-    setTimeout(this.setState((prev) => ({
-      sessionLength: prev.sessionLength
-    })), 20000)
-      //do stuff
-     this.setState({
+      this.setState({
         seconds: Math.floor(this.state.breakLength * 60),
-        titleTimer: "Break"
-        // break: true
+        break:true,
       })
-   
-   
+    }
+        
   }
-
-    // else {
-    // this.setState({
-    //   seconds: Math.floor(this.state.sessionLength * 60),
-    //   titleTimer: "Session"
-    //   // break: true
-    // })
-    // }
-}
-
- 
+  componentDidUpdate(){
+    if(this.state.seconds === 0) {
+      this.setState({
+        title: true
+      })
+    }
+  }
+  
 
   handleIncremetBreakLength =()=> {
+    
     this.setState((prevState) => ({
       breakLength: this.state.breakLength + 1,
     }))
 
-    if(this.state.breakLength > 65 - 1) {
+    if(this.state.breakLength > 60 - 1) {
       console.log("greater than 60")
       this.setState(()=> ({
         breakLength: 60
@@ -81,20 +76,13 @@ class App extends Component {
         breakLength: 1
       }))
     }
-  
-    
-    else {
-      return 
-    }
-   
+
   }
   handleIncremetsessionLength = () => {
     this.setState((prevState) => ({
       sessionLength: prevState.sessionLength + 1,
-      // break:false,
-      session:true
     }))
-    if (this.state.sessionLength > 65 - 1) {
+    if (this.state.sessionLength > 60 - 1) {
       console.log("greater than 60")
       this.setState(() => ({
         sessionLength: 60
@@ -110,9 +98,8 @@ class App extends Component {
   handleDecremetsessionLength = () => {
     this.setState((prevState) => ({
       sessionLength: prevState.sessionLength - 1,
-      session: true,
-     
-    }))
+      session: true 
+   }))
     if (this.state.session === true) {
       this.setState(prevState => ({
         seconds: prevState.sessionLength * 60
@@ -137,64 +124,57 @@ getMinutes(){
 }
 getSecondes(){
   let  sec= ("0"+this.state.seconds % 60).slice(-2)
+  
   return sec
 }
-  startTime=()=> {
-  // console.log(this.state.arr.length)
-    const { arr } = this.state;
-        this.interval = setInterval(() =>
-          this.setState(state => ({
-            seconds: state.seconds - 1,
-            min: Math.floor((this.state.seconds / 60)),
-          })),
-          1000);
 
-        // if (this.state.sessionLength > 60) {
-        //   console.log("break session 60!!!!")
-        //   this.setState((prevState) => ({
-        //     sessionLength: prevState.sessionLength + 60 - 60
-        //   }))
-        //   clearInterval(this.interval)
-        //   console.log("hey i need to update ")
-        
-        
- 
-  
-
+  handleClickStop = () => {
+    clearInterval(this.interval)
+    clearInterval(this.PlaySound)
   }
-  handleClickStart =()=> {
-   
 
-    this.startTime();
+  startTime=()=> {
+    if(this.state.start){
+      this.interval = setInterval(() =>
+        this.setState(state => ({
+          seconds: state.seconds - 1,
+          start: false,
+          min: Math.floor((this.state.seconds / 60)),
+           
+        })),
+        1000);
+    }
+    else {
+      clearInterval(this.interval)
+      this.setState({
+        start:true
+      })   
+    }
+}
+  handleClickStart =()=> {
+  this.startTime();
 }
   
 
   handleClickReset=()=> {
-    var elem = document.getElementById('reset');
-    elem.style.color ="red";
-    (this.setState(() => ({
+    this.setState(() => ({
       ...defaultstate
-    })))
-    
+    }))
       clearInterval(this.interval)
       clearInterval(this.PlaySound)
-  // this.ResetButton(e)
-  console.log(this.state.id + "the di")
-
+    let elem = document.getElementById("time-left");
+    elem.style.color = "white";
+    let title = document.getElementById("timer-label");
+    title.style.color = "white"
+  
   }
  
-//   handleClickStop=()=> {
-//   clearInterval(this.interval)
-//     clearInterval(this.PlaySound)
-// }
-
 
   render() {
-    console.log(this.state.seconds)
     const { 
       breakLength, 
       sessionLength,
-      titleTimer,
+      title,
        start
      } = this.state;
 
@@ -214,7 +194,7 @@ getSecondes(){
         <DisplaySession
           getMinutes={this.getMinutes()}
           getSecondes={this.getSecondes()}
-          titleTimer={titleTimer}
+          title={title}
          />
 
         <ButtonStartPauseReset
@@ -223,8 +203,6 @@ getSecondes(){
           handleClickReset={this.handleClickReset}
           start={start}
          />
-        
-
          
       </div>
     );

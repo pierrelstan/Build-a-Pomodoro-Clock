@@ -12,6 +12,7 @@ render(){
         breakLength,
         sessionLength
         } = this.props;
+        console.log(breakLength + " the default breakLength")
     return (
         <div className="container" >
           <div className="buttom-label-wrapper">
@@ -19,7 +20,7 @@ render(){
               <h2 id="break-label">break Length</h2>
               <div style={{ display: "flex", justifyContent: "center" }}>
               <div id="break-decrement" onClick={handleDecremetBreakLength}><i className={`far  fa-arrow-alt-circle-down`}></i></div>
-                <div id="break-length">{breakLength}</div>
+              <div id="break-length" >{ breakLength }</div>
               <div id= "break-increment" onClick={handleIncremetBreakLength}><i className="far  fa-arrow-alt-circle-up "></i></div>
               </div>
             </div>
@@ -38,7 +39,7 @@ render(){
 }
 } 
 ControlButton.defaultProps = {
-  breakLength: 5,
+  breakLength:5,
   sessionLength:25
 }
 export default ControlButton;
