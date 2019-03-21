@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
-import Break from './components/break';
 import Break from './components/break';
 import Session from './components/session';
 import Display from './components/display';
+import ControlButton from './components/controlButton';
 
 
 class App extends Component {
@@ -19,17 +18,18 @@ class App extends Component {
 
  
 getMinutes(){
- let min= Math.floor(("0" + this.state.seconds / 60))
+  const { seconds } = this.state;
+ let min= Math.floor((seconds / 60))
  return min
 }
+
 getSecondes(){
-  let  sec= ("0" + this.state.seconds % 60).slice(-2)
+  const { seconds } = this.state;
+  let  sec= ("0" + seconds % 60).slice(-2)
   return sec
 }
 
-
   handleClickStart =()=> {
-
     this.interval = setInterval(() => this.setState(state => ({
       seconds: state.seconds - 1,
     })), 1000)
@@ -43,14 +43,26 @@ getSecondes(){
   }
  
   render() {
+    const { sessionLength, breakLength } = this.state;
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
         <div style={{ display: "flex", justifyContent:"center"}}>
-           <Break />
-           <Session />
+           <Break 
+           breakLength={ breakLength }
+           />
+           <Session
+           sessionLength={ sessionLength }
+            />
         </div>
-            <Display />
+            <Display
+            getMinutes={this.getMinutes()}
+            getSecondes ={this.getSecondes()}
+            />
+            <ControlButton
+            handleClickStart={this.handleClickStart}
+            handleClickReset={this.handleClickReset}
+             />
       </div>
     );
   }
