@@ -4,7 +4,7 @@ const ControlButton =({handleClickStart, handleClickReset})=> (
         <div style={{ display: "flex", justifyContent: "center" }}>
             <div>
                 <button id="start_stop" onClick={handleClickStart}>Start</button>
-                <button onClick={handleClickReset}>Reset</button>
+                <button onClick={handleClickReset} id="reset">Reset</button>
 
             </div>
 
