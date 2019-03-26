@@ -1,9 +1,14 @@
 import React from "react";
-const Break =({ breakLength })=> (
+const Break = ({ breakLength, handleClickBreakLengthDown, handleClickBreakLengthUp })=> (
     <div>
-        <button id="break-decrement">down</button>
-        <div id="break-label">{breakLength}</div>
-        <button d="break-increment">up</button>
+        <h1 id="break-label">Break Length</h1>
+        <button id="break-increment" onClick={handleClickBreakLengthUp}>up</button>
+        <div id="break-length">{ breakLength }</div>
+        <button  id="break-decrement" onClick={handleClickBreakLengthDown}>down</button>
     </div>
 )
+
+Break.getDefaultProps = {
+    breakLength: 5,
+}
 export default Break;
