@@ -1,8 +1,16 @@
 import React from "react";
-const Display = ({ getMinutes, getSecondes, reachZero})=> (
+
+function format(value) {
+        if(value <= 9){
+                return `0${value}`
+        } else {
+                return value
+        }
+}
+const Display = ({ getMinutes, getSecondes, reachZero,TimerLabeldDisplay})=> (
         <div style={{ textAlign: "center" }}>
-        <h1>{ !reachZero ? "Session" : "Break"}</h1>
-            <div id="timer-label" >{getMinutes}:{getSecondes} </div>
+        <h1 id="timer-label">{TimerLabeldDisplay}</h1>
+        <div  id="time-left"> {format(getMinutes)}:{getSecondes} </div>
         </div>
 )
 export default Display;
