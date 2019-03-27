@@ -5,6 +5,7 @@ import Session from './components/session';
 import Display from './components/display';
 import ControlButton from './components/controlButton';
 
+
 const DefaulttState ={
   seconds: 25 * 60 ,
   breakLength: 5,
@@ -12,7 +13,8 @@ const DefaulttState ={
   reachZero: false,
   start_stop: true,
   TimerLabeldDisplay:"Session",
-  count:0
+  count:0,
+  play: 3
 }
 class App extends Component {
   constructor(props){
@@ -24,41 +26,26 @@ class App extends Component {
       reachZero:false,
       start_stop: true,
       TimerLabeldDisplay:"Session",
-      count:0
+      count:0,
+      play: 3
     }
   }
 
  componentWillUpdate() {
- 
-   if (this.state.seconds === 0) {
+    if (this.state.seconds === 0) {
      this.setState({
        seconds: Math.floor(this.state.breakLength * 60),
        TimerLabeldDisplay:"Break",
        count:1
      })
    }
+   
    if(this.state.count === 1 && this.state.seconds === 0) {
      this.setState({
        TimerLabeldDisplay:"Session"
      })
    }
-else {
-  console.log("not ready")
 }
- }
-// componentWillUpdate(){
-//   let calculBreaktoReturnSession = this.state.breakLength - this.state.seconds;
-//   console.log(calculBreaktoReturnSession + " the result")
-//   // if(this.state.seconds === 0 && this.state.reachZero === "Break") {
-//   //   this.setState({
-//   //     ses:true,
-//   //    breakdDisplay:"Session"
-//   //   })
-// // }
-// // else {
-// //   return 
-// // }
-//  }
 
 getMinutes(){
   const { seconds } = this.state;
@@ -77,21 +64,26 @@ getSecondes(){
       this.interval = setInterval(() => this.setState(state => ({
         seconds: state.seconds - 1,
       })), 1000)
-      console.log("je suis la putain")
+      console.log("je suis")
       this.setState({
         start_stop:false
       })
+
+      
     }
     else {
       clearInterval(this.interval)
     this.setState({
       start_stop:true
     })
-     
-     console.log("la aussi putain")
+    if(this.state.seconds === 0){
+      console.log("here")
+      this.audio.play()
+    }
+     console.log("la aussi")
      
     }
-    
+   
   }
 
   handleClickReset=()=> {
@@ -149,6 +141,9 @@ getSecondes(){
   }
   render() {
     const { sessionLength, breakLength, reachZero} = this.state;
+    const Sound =()=> (
+      <audio id="beep" src="https://res.cloudinary.com/dteuk7cbl/video/upload/v1553692135/beep-06_k3sktb.mp3" ref={ref =>this.audio = ref }></audio>
+    )
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
@@ -170,6 +165,7 @@ getSecondes(){
             reachZero={reachZero}
             TimerLabeldDisplay={this.state.TimerLabeldDisplay}
             />
+           <Sound />
             <ControlButton
             handleClickStart={this.handleClickStart}
             handleClickReset={this.handleClickReset}
