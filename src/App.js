@@ -27,24 +27,35 @@ class App extends Component {
       start_stop: true,
       TimerLabeldDisplay:"Session",
       count:0,
-      play: 3
+      play: 3,
+      a:0
     }
   }
 
- componentWillUpdate() {
-    if (this.state.seconds === 0) {
-     this.setState({
-       seconds: Math.floor(this.state.breakLength * 60),
-       TimerLabeldDisplay:"Break",
-       count:1
-     })
-   }
+
+ componentDidUpdate(prevProps, prevState,) {
+   const { breakLength } = this.state;
+   let beep = document.getElementById("beep");
+  if ( prevState.seconds === 0 ) {
+ 
+        beep.play();
+
+        this.setState({
+          seconds: Math.floor(breakLength * 60),
+          TimerLabeldDisplay:"Break",
+          count:1,
+          a:1
+        })
+    }
+
    
-   if(this.state.count === 1 && this.state.seconds === 0) {
+   if(prevState.count === 1 && prevState.seconds === 0) {
+    beep.play()
      this.setState({
        TimerLabeldDisplay:"Session"
      })
    }
+  
 }
 
 getMinutes(){
@@ -64,7 +75,6 @@ getSecondes(){
       this.interval = setInterval(() => this.setState(state => ({
         seconds: state.seconds - 1,
       })), 1000)
-      console.log("je suis")
       this.setState({
         start_stop:false
       })
@@ -75,25 +85,22 @@ getSecondes(){
       clearInterval(this.interval)
     this.setState({
       start_stop:true
-    })
-    if(this.state.seconds === 0){
-      console.log("here")
-      this.audio.play()
-    }
-     console.log("la aussi")
-     
+    })  
     }
    
   }
 
   handleClickReset=()=> {
-    console.log("wesh cest vrai")
-    clearInterval(this.interval)
+    let beepPause = document.getElementById("beep");
+       
+    beepPause.pause();
+    beepPause.currentTime = 0;
 
     this.setState({
       ...DefaulttState
     })
-   
+    clearInterval(this.interval)
+
   }
  handleClickBreakLengthUp=()=> {
    this.setState((prevState)=>({
@@ -141,9 +148,7 @@ getSecondes(){
   }
   render() {
     const { sessionLength, breakLength, reachZero} = this.state;
-    const Sound =()=> (
-      <audio id="beep" src="https://res.cloudinary.com/dteuk7cbl/video/upload/v1553692135/beep-06_k3sktb.mp3" ref={ref =>this.audio = ref }></audio>
-    )
+    
     return (
       <div>
         <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
@@ -165,11 +170,15 @@ getSecondes(){
             reachZero={reachZero}
             TimerLabeldDisplay={this.state.TimerLabeldDisplay}
             />
-           <Sound />
+          
             <ControlButton
             handleClickStart={this.handleClickStart}
             handleClickReset={this.handleClickReset}
+            a={this.state.a}
              />
+              <audio id="beep"
+             src="https://res.cloudinary.com/dteuk7cbl/video/upload/v1553814071/BeepSound_ago8ds.wav">
+             </audio>
       </div>
     );
   }
