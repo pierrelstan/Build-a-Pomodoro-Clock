@@ -135,7 +135,7 @@ getSecondes(){
   handleClickSessionLengthUp = () => {
     this.setState((prevState) => ({
       sessionLength: prevState.sessionLength + 1,
-      seconds: Math.floor(this.state.sessionLength * 60) + 1
+      seconds: Math.floor(prevState.sessionLength * 60) + 100,
     }))
     if (this.state.sessionLength > 60 - 1) {
       this.setState({
