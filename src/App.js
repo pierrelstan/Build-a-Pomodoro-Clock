@@ -14,7 +14,6 @@ const DefaulttState ={
   start_stop: true,
   TimerLabeldDisplay:"Session",
   count:0,
-  play: 3
 }
 class App extends Component {
   constructor(props){
@@ -27,8 +26,6 @@ class App extends Component {
       start_stop: true,
       TimerLabeldDisplay:"Session",
       count:0,
-      play: 3,
-      a:0
     }
   }
 
@@ -174,7 +171,6 @@ getSecondes(){
             <ControlButton
             handleClickStart={this.handleClickStart}
             handleClickReset={this.handleClickReset}
-            a={this.state.a}
              />
               <audio id="beep"
              src="https://res.cloudinary.com/dteuk7cbl/video/upload/v1553814071/BeepSound_ago8ds.wav">
