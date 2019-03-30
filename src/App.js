@@ -148,8 +148,9 @@ getSecondes(){
     
     return (
       <div>
-        <div><h1 style={{textAlign: "center"}}>Pomodoro Clock</h1></div>
-        <div style={{ display: "flex", justifyContent:"center"}}>
+      <div>
+        <div><h1 className="title-Pomodoro">Pomodoro Clock</h1></div>
+        <div className="containerBreakSession">
            <Break 
            handleClickBreakLengthUp={this.handleClickBreakLengthUp}
            handleClickBreakLengthDown={this.handleClickBreakLengthDown}
@@ -171,10 +172,12 @@ getSecondes(){
             <ControlButton
             handleClickStart={this.handleClickStart}
             handleClickReset={this.handleClickReset}
+            start_stop={this.state.start_stop}
              />
               <audio id="beep"
              src="https://res.cloudinary.com/dteuk7cbl/video/upload/v1553814071/BeepSound_ago8ds.wav">
              </audio>
+      </div>
       </div>
     );
   }
