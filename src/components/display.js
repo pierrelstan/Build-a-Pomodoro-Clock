@@ -8,9 +8,11 @@ function format(value) {
         }
 }
 const Display = ({ getMinutes, getSecondes, reachZero,TimerLabeldDisplay})=> (
-        <div style={{ textAlign: "center" }}>
-        <h1 id="timer-label">{TimerLabeldDisplay}</h1>
+        <div className="circle-wrapper">
+        <div id="circle">
+        <h2 id="timer-label">{TimerLabeldDisplay}</h2>
         <div  id="time-left"> {format(getMinutes)}:{getSecondes} </div>
+        </div>
         </div>
 )
 export default Display;
